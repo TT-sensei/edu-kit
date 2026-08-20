@@ -1,0 +1,26 @@
+{
+  "name": "EDU KIT",
+  "purpose": "Single entry point for TT-sensei elementary web learning resources",
+  "start_here": "https://github.com/TT-sensei/edu-kit/blob/main/AI-GUIDE.md",
+  "constraints": {
+    "stack": ["HTML", "CSS", "Vanilla JavaScript"],
+    "no_build": true,
+    "no_api_key": true,
+    "no_external_database": true,
+    "input": ["touch", "mouse", "keyboard where appropriate"],
+    "avoid_drag_only": true
+  },
+  "resources": [
+    {"id":"components","role":"logic and state","repository":"https://github.com/TT-sensei/edu-components","catalog":"https://tt-sensei.github.io/edu-components/","entry":"https://tt-sensei.github.io/edu-components/index.js","guide":"https://github.com/TT-sensei/edu-components/blob/main/AI-GUIDE.md"},
+    {"id":"effects","role":"UI, CSS and visual effects","repository":"https://github.com/TT-sensei/edu-effects","catalog":"https://tt-sensei.github.io/edu-effects/","css_root":"https://tt-sensei.github.io/edu-effects/css/","guide":"https://github.com/TT-sensei/edu-effects/blob/main/AI-GUIDE.md"},
+    {"id":"sounds","role":"Web Audio API sound recipes","repository":"https://github.com/TT-sensei/sounds-recipe-","catalog":"https://tt-sensei.github.io/sounds-recipe-/","entry":"https://tt-sensei.github.io/sounds-recipe-/sounds.js","guide":"https://github.com/TT-sensei/sounds-recipe-/blob/main/SOUND_GUIDE.md"},
+    {"id":"assets","role":"badges and reward images","repository":"https://github.com/TT-sensei/edu-assets","catalog":"https://tt-sensei.github.io/edu-assets/","asset_root":"https://tt-sensei.github.io/edu-assets/assets/"}
+  ],
+  "rules": [
+    "Use only resources needed for the learning goal.",
+    "Verify implementations and catalogs; never guess APIs, classes, sound IDs or asset URLs.",
+    "Use EDU_EVENTS as the integration boundary.",
+    "Keep lesson-specific questions, text and achievement conditions in the lesson repository.",
+    "Do not place DOM, CSS, sounds or images inside shared managers."
+  ]
+}
