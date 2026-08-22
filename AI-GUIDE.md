@@ -2,13 +2,13 @@
 
 ## この文書の役割
 
-小学校向けWeb教材を作るAIは、最初にこの文書を読みます。ここは4つの共通資産を一つに複製した場所ではなく、必要な資産を正しく選び、実在する実装へ案内する正本です。
+小学校向けWeb教材を作るAIは、最初にこの文書を読みます。ここは5つの共通資産を一つに複製した場所ではなく、必要な資産を正しく選び、実在する実装へ案内する正本です。
 
 ## 絶対ルール
 
 1. READMEの説明だけでAPI、CSSクラス、音ID、画像URLを推測しない。
 2. 参照先の実装ファイルと公開カタログで、利用する名前とパスの実在を確認する。
-3. 4資産すべてを必ず使わない。学習目標に必要な資産だけを選ぶ。
+3. 5資産すべてを必ず使わない。学習目標に必要な資産だけを選ぶ。
 4. 既存部品と同じ処理を教材側で再実装しない。
 5. 教材固有の問題データ、画面文言、正答、達成条件は教材リポジトリ側に置く。
 6. Managerの内部へDOM、CSS、音、画像を混在させない。
@@ -27,7 +27,7 @@
 7. イベントを接続点として教材側で組み合わせる。
 8. タブレット横向き、タッチ、キーボード、`prefers-reduced-motion`で確認する。
 
-## 4資産の役割と正本
+## 5資産の役割と正本
 
 | 資産 | 担当 | 実装・ガイド | 公開カタログ |
 | --- | --- | --- | --- |
@@ -35,6 +35,7 @@
 | `edu-effects` | UI・CSS・視覚演出 | [css/](https://github.com/TT-sensei/edu-effects/tree/main/css) / [AI-GUIDE](https://github.com/TT-sensei/edu-effects/blob/main/AI-GUIDE.md) | [Catalog](https://tt-sensei.github.io/edu-effects/) |
 | `sounds-recipe-` | Web Audio APIの効果音 | [sounds.js](https://github.com/TT-sensei/sounds-recipe-/blob/main/sounds.js) / [SOUND_GUIDE](https://github.com/TT-sensei/sounds-recipe-/blob/main/SOUND_GUIDE.md) | [Catalog](https://tt-sensei.github.io/sounds-recipe-/) |
 | `edu-assets` | バッジ・エレメント・コレクション画像 | [assets/](https://github.com/TT-sensei/edu-assets/tree/main/assets) | [Badge Lab](https://tt-sensei.github.io/edu-assets/) |
+| `navi-character-` | 教材を案内するキャラクター画像 | [catalog.json](https://github.com/TT-sensei/navi-character-/blob/main/catalog.json) / [AI-GUIDE](https://github.com/TT-sensei/navi-character-/blob/main/AI-GUIDE.md) | [Character Library](https://tt-sensei.github.io/navi-character-/) |
 
 機械可読の入口は[`edu-kit.json`](edu-kit.json)です。
 
@@ -124,6 +125,15 @@ AudioContextは最初のユーザー操作後に`resume()`し、音量・ミュ�
 
 フォルダ名からURLを組み立てて推測しません。[Badge Lab](https://tt-sensei.github.io/edu-assets/)で画像を開き、「URLをコピー」で実在URLを取得します。
 
+## navi-character-の使い方
+
+- まず[Character Library](https://tt-sensei.github.io/navi-character-/)または[catalog.json](https://github.com/TT-sensei/navi-character-/blob/main/catalog.json)で、キャラクターID・画像名・実在パスを確認する。
+- `assets/characters/<character-id>/fullbody/<pose>.png` と `expressions/<expression>.png` のURLを推測で組み立てない。必ずカタログの実在項目を使う。
+- 6人全員に共通する場面は、`waving` / `correct` / `hint` / `retry` / `complete` を優先する。表情は `01-normal-smile` 〜 `10-confident` から目的に合わせて選ぶ。
+- キャラクターは案内・励まし・正誤・達成を補助するために使う。問題文、選択肢、答え、判定をキャラクター画像へ埋め込まない。
+- 複数の場面で使うなら、教材側にキャラクターIDと画像URLをまとめて定義し、画像パスを散在させない。
+- 6人セット画像は `assets/groups/` にある。トップ・紹介は `group-standing`、学習ポータルは `group-studying`、達成は `group-celebration`、仲間感の演出は `group-huddle` を使う。
+
 ## イベントを連携の中心にする
 
 イベント名の正本は[`js/core/events.js`](https://github.com/TT-sensei/edu-components/blob/main/js/core/events.js)です。Managerはロジックと状態を担当し、イベントを受けた教材側がCSS演出、音、画像表示を接続します。
@@ -161,6 +171,14 @@ AudioContextは最初のユーザー操作後に`resume()`し、音量・ミュ�
 - sound：`correct`、コンボ音、`warning`、`timeUpSoft`
 - asset：新記録や達成に報酬を付ける場合だけ
 
+### キャラクターで案内する教材
+
+- character：`navi-character-`のカタログから1人を選ぶ
+- logic：既存の問題・正誤ロジック
+- style：キャラクターを主役にしすぎず、問題と操作を最優先に配置
+- sound / asset：必要な場合だけ併用
+- example：開始=`waving`、正解=`correct`、ヒント=`hint`、再挑戦=`retry`、完了=`complete`
+
 ### バッジ付き教材
 
 - logic：`StorageManager`、`AchievementManager`、`BadgeManager`
@@ -181,7 +199,8 @@ AudioContextは最初のユーザー操作後に`resume()`し、音量・ミュ�
 - 使用するimport名、メソッド、イベント名が実装に存在する。
 - 読み込むCSSファイルと利用クラスが実在する。
 - 音IDが`soundList`に存在する。
-- 画像URLをBadge Labまたは実ファイルで確認した。
+- バッジ画像URLをBadge Labまたは実ファイルで確認した。
+- キャラクター画像を使う場合、`catalog.json`でcharacter ID・画像名・実在パスを確認した。
 - 共通資産を教材側へ重複実装していない。
 - 問題データと処理が分離されている。
 - 保存namespaceが教材固有である。
