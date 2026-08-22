@@ -129,7 +129,7 @@ AudioContextは最初のユーザー操作後に`resume()`し、音量・ミュ�
 
 - まず[Character Library](https://tt-sensei.github.io/navi-character-/)または[catalog.json](https://github.com/TT-sensei/navi-character-/blob/main/catalog.json)で、キャラクターID・画像名・実在パスを確認する。
 - `assets/characters/<character-id>/fullbody/<pose>.png` と `expressions/<expression>.png` のURLを推測で組み立てない。必ずカタログの実在項目を使う。
-- 6人全員に共通する場面は、`waving` / `correct` / `hint` / `retry` / `complete` を優先する。表情は `01-normal-smile` 〜 `10-confident` から目的に合わせて選ぶ。
+- 6人に共通する場面の意味は「あいさつ / 正解 / ヒント / 再挑戦 / 完了」。ファイル名には個人差（例：りくは`01-waving`）があるため、各IDの`catalog.json`を確認してから選ぶ。表情は `01-normal-smile` 〜 `10-confident` から目的に合わせて選ぶ。
 - キャラクターは案内・励まし・正誤・達成を補助するために使う。問題文、選択肢、答え、判定をキャラクター画像へ埋め込まない。
 - 複数の場面で使うなら、教材側にキャラクターIDと画像URLをまとめて定義し、画像パスを散在させない。
 - 6人セット画像は `assets/groups/` にある。トップ・紹介は `group-standing`、学習ポータルは `group-studying`、達成は `group-celebration`、仲間感の演出は `group-huddle` を使う。
