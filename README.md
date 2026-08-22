@@ -8,7 +8,7 @@
 - [AI向け統合ガイド](AI-GUIDE.md)
 - [機械可読マニフェスト](edu-kit.json)
 
-4つの資産そのものは役割別リポジトリで管理し、`edu-kit`には選び方・実在する参照先・組み合わせ方を集約します。中身を重複コピーするリポジトリではありません。
+5つの資産そのものは役割別リポジトリで管理し、`edu-kit`には選び方・実在する参照先・組み合わせ方を集約します。中身を重複コピーするリポジトリではありません。
 
 | 資産 | 役割 | カタログ |
 | --- | --- | --- |
@@ -16,6 +16,7 @@
 | [edu-effects](https://github.com/TT-sensei/edu-effects) | UI・CSS・視覚演出 | [開く](https://tt-sensei.github.io/edu-effects/) |
 | [sounds-recipe-](https://github.com/TT-sensei/sounds-recipe-) | Web Audio APIの教材用サウンド | [開く](https://tt-sensei.github.io/sounds-recipe-/) |
 | [edu-assets](https://github.com/TT-sensei/edu-assets) | バッジ・報酬画像 | [開く](https://tt-sensei.github.io/edu-assets/) |
+| [navi-character-](https://github.com/TT-sensei/navi-character-) | ナビゲーションキャラクター画像 | [開く](https://tt-sensei.github.io/navi-character-/) |
 
 ## AIへの基本指示
 
