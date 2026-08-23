@@ -1,3 +1,8 @@
+---
+name: add-navi-character
+description: navi-character-の実在画像を、学習を邪魔しない案内・励まし・正誤・達成の補助として教材へ追加するときに使う。
+---
+
 # Add Navi Character
 
 ## いつ使うか
