@@ -1,3 +1,8 @@
+---
+name: final-review
+description: Web教材の作成・変更後、完成扱いにする前に学習内容、基本フロー、保存、端末表示、補助資産の失敗耐性を最終点検するときに使う。
+---
+
 # Final Review — edu-doctor
 
 ## いつ使うか
