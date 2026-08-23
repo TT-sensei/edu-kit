@@ -1,3 +1,8 @@
+---
+name: add-rewards
+description: Web教材にバッジ、コレクション、レベル等を、学習の継続や成長の可視化として追加するときに使う。
+---
+
 # Add Rewards
 
 ## いつ使うか
