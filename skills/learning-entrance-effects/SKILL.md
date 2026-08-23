@@ -1,3 +1,8 @@
+---
+name: learning-entrance-effects
+description: 教材の初回開始、新単元、新ステージなど意味のある節目に限り、短く省略可能な入口演出を追加するときに使う。
+---
+
 # Learning Entrance Effects
 
 ## いつ使うか
