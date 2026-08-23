@@ -12,9 +12,11 @@
 
 1. `DESIGN-PRINCIPLES.md` — 上位の教材設計原則
 2. `AI-GUIDE.md` — 共通資産の実装・参照方法
-3. 該当する `skills/*/SKILL.md` — 作業別の手順
+3. 該当する `skills/*/SKILL.md` — 作業別の実行仕様
 4. `edu-kit.json` — 機械可読の入口
 5. 各資産リポジトリの実装・AIガイド — API、CSSクラス、ID、画像パスの実在確認
+
+`skills/*/SKILL.md`は対応AIが直接読む作業手順です。自動読込に対応しない環境でも、同じファイルを依頼文と完了チェックとして使います。
 
 ## 共通資産
 
@@ -33,7 +35,7 @@
 5. edu-kitから必要な共通資産だけを選ぶ
 6. 実在するAPI・CSS・ID・パスを確認して実装する
 7. キャラクター・演出・報酬は最後に必要な分だけ加える
-8. `skills/final-review/SKILL.md` に沿って回帰確認する
+8. `skills/final-review/SKILL.md`に沿って回帰確認する
 
 ## 禁止・注意
 
@@ -44,7 +46,7 @@
 - キャラクター、バッジ、ご褒美を学習入口より目立たせない
 - 入口演出を通常の問題遷移やホーム復帰のたびに使わない
 - 長押し・ドラッグだけを必須操作にしない
-- npm、ビルド、APIキー、外部DBを前提にしない
+- npm、ビルド、APIキー、外部DBを教材本体の前提にしない
 - 共通化済みの機能を教材側で重複実装しない
 
 ## Skill一覧
@@ -54,9 +56,19 @@
 - `skills/add-navi-character/SKILL.md` — ナビキャラを控えめに導入
 - `skills/add-feedback/SKILL.md` — 正誤・達成フィードバックを設計
 - `skills/add-rewards/SKILL.md` — バッジ・コレクション等を追加
-- `skills/learning-entrance-effects/SKILL.md` — 初回開始・新単元など意味のある節目だけに入口演出を使う
+- `skills/learning-entrance-effects/SKILL.md` — 意味のある節目だけに入口演出を使う
 - `skills/tablet-optimization/SKILL.md` — PC・タブレット・スマホ最適化
 - `skills/final-review/SKILL.md` — 最終点検・回帰確認
+
+## 更新時の検証
+
+5資産のURLやファイル構成、Skillを変更した場合は`MAINTENANCE.md`を確認し、次を実行します。
+
+```bash
+node scripts/verify-repositories.mjs
+```
+
+詳細仕様をedu-kitへ複製せず、各資産リポジトリを正本として維持します。
 
 ## 判断原則
 
