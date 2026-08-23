@@ -1,3 +1,8 @@
+---
+name: add-feedback
+description: Web教材の正解・不正解・ヒント・再挑戦・達成の反応を、次の学習行動につながる形で追加または改善するときに使う。
+---
+
 # Add Learning Feedback
 
 ## いつ使うか
