@@ -42,6 +42,7 @@
 - edu-kitにある機能を全部使おうとしない
 - 既存教材の問題データ、判定、保存を理由なく変更しない
 - キャラクター、バッジ、ご褒美を学習入口より目立たせない
+- 入口演出を通常の問題遷移やホーム復帰のたびに使わない
 - 長押し・ドラッグだけを必須操作にしない
 - npm、ビルド、APIキー、外部DBを前提にしない
 - 共通化済みの機能を教材側で重複実装しない
@@ -53,6 +54,7 @@
 - `skills/add-navi-character/SKILL.md` — ナビキャラを控えめに導入
 - `skills/add-feedback/SKILL.md` — 正誤・達成フィードバックを設計
 - `skills/add-rewards/SKILL.md` — バッジ・コレクション等を追加
+- `skills/learning-entrance-effects/SKILL.md` — 初回開始・新単元など意味のある節目だけに入口演出を使う
 - `skills/tablet-optimization/SKILL.md` — PC・タブレット・スマホ最適化
 - `skills/final-review/SKILL.md` — 最終点検・回帰確認
 
