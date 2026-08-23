@@ -1,3 +1,8 @@
+---
+name: tablet-optimization
+description: 学校のPC・タブレット・スマホで、Web教材の表示と主要操作を最適化するときに使う。特にタブレット横向きとPCを優先する。
+---
+
 # Tablet Optimization
 
 ## いつ使うか
