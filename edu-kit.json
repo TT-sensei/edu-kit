@@ -3,19 +3,11 @@
   "purpose": "Single entry point for TT-sensei elementary web learning resources",
   "start_here": "https://github.com/TT-sensei/edu-kit/blob/main/AI-GUIDE.md",
   "constraints": {
-    "stack": [
-      "HTML",
-      "CSS",
-      "Vanilla JavaScript"
-    ],
+    "stack": ["HTML", "CSS", "Vanilla JavaScript"],
     "no_build": true,
     "no_api_key": true,
     "no_external_database": true,
-    "input": [
-      "touch",
-      "mouse",
-      "keyboard where appropriate"
-    ],
+    "input": ["touch", "mouse", "keyboard where appropriate"],
     "avoid_drag_only": true
   },
   "resources": [
@@ -61,6 +53,21 @@
       "groups_root": "https://tt-sensei.github.io/navi-character-/assets/groups/"
     }
   ],
+  "skills": [
+    "create-learning-app",
+    "improve-existing-app",
+    "add-navi-character",
+    "add-feedback",
+    "add-rewards",
+    "learning-entrance-effects",
+    "tablet-optimization",
+    "final-review"
+  ],
+  "verification": {
+    "command": "node scripts/verify-repositories.mjs",
+    "maintenance_guide": "MAINTENANCE.md",
+    "pilot": "docs/PILOT-KANADOCCHI.md"
+  },
   "rules": [
     "Use only resources needed for the learning goal.",
     "Verify implementations and catalogs; never guess APIs, classes, sound IDs or asset URLs.",
