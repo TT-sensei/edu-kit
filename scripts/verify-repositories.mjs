@@ -128,9 +128,18 @@ async function verifySkills() {
   for (const skill of SKILLS) {
     try {
       const source = await readFile(new URL(`../skills/${skill}/SKILL.md`, import.meta.url), 'utf8');
+      const frontmatter = source.match(/^---\n([\s\S]*?)\n---/);
+      if (!frontmatter) {
+        fail(`${skill}: missing YAML frontmatter`);
+        continue;
+      }
+      const declaredName = frontmatter[1].match(/^name:\s*(.+)$/m)?.[1]?.trim();
+      const description = frontmatter[1].match(/^description:\s*(.+)$/m)?.[1]?.trim();
+      if (declaredName !== skill) fail(`${skill}: frontmatter name must match folder name`);
+      if (!description) fail(`${skill}: missing frontmatter description`);
       const missing = REQUIRED_SKILL_SECTIONS.filter((section) => !source.includes(section));
       if (missing.length) fail(`${skill}: missing ${missing.join(', ')}`);
-      else pass(`${skill}: required sections`);
+      else if (declaredName === skill && description) pass(`${skill}: frontmatter and required sections`);
     } catch (error) {
       fail(`${skill}: ${error.message}`);
     }
