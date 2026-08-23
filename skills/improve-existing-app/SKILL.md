@@ -1,3 +1,8 @@
+---
+name: improve-existing-app
+description: 既存Web教材の問題・判定・保存などの保護対象を守りながら、UI、導線、演出、レスポンシブを改善するときに使う。
+---
+
 # Improve Existing App
 
 ## いつ使うか
