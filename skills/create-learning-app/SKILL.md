@@ -1,3 +1,8 @@
+---
+name: create-learning-app
+description: 小学校向けWeb教材を、学習目標・反復する学習行動・対象端末から新規設計して作成するときに使う。
+---
+
 # Create Learning App
 
 ## いつ使うか
