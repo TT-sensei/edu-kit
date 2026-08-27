@@ -1,4 +1,5 @@
 {
+  "schema_version": 2,
   "name": "EDU KIT",
   "purpose": "Single entry point for TT-sensei elementary web learning resources",
   "start_here": "https://github.com/TT-sensei/edu-kit/blob/main/AI-GUIDE.md",
@@ -7,8 +8,32 @@
     "no_build": true,
     "no_api_key": true,
     "no_external_database": true,
+    "storage": "localStorage",
     "input": ["touch", "mouse", "keyboard where appropriate"],
-    "avoid_drag_only": true
+    "avoid_drag_only": true,
+    "prioritize_tablet_landscape": true,
+    "one_screen_primary": true,
+    "supplemental_scroll_only": true
+  },
+  "learning_standards": {
+    "primary_cycle": ["choose", "learn_or_observe", "answer_or_change_condition", "see_feedback", "retry_or_continue"],
+    "stuck_recovery": ["hint", "explanation", "reveal_answer", "retry", "continue"],
+    "answer_reveal_is_correct": false,
+    "simulation_cycle": ["change_condition", "observe_change", "check_briefly", "try_again"],
+    "reward_state_must_distinguish": ["unearned", "earned"],
+    "visual_priority": ["learning_content", "primary_operation", "current_location", "supporting_assets"]
+  },
+  "persistence": {
+    "new_app_manager": "StorageManager",
+    "lesson_namespace_required": true,
+    "preserve_existing_schema_by_default": true,
+    "verify_after_reload": true
+  },
+  "image_policy": {
+    "web_priority": "lightweight WebP under assets/web when it exists",
+    "original_use": ["high-resolution download", "printing", "authoring", "re-editing", "fallback when no web version exists"],
+    "never_guess_paths": true,
+    "verify_actual_file": true
   },
   "resources": [
     {
@@ -66,14 +91,23 @@
   "verification": {
     "command": "node scripts/verify-repositories.mjs",
     "maintenance_guide": "MAINTENANCE.md",
-    "pilot": "docs/PILOT-KANADOCCHI.md"
+    "pilot": "docs/PILOT-KANADOCCHI.md",
+    "manual_flow_required": true
   },
   "rules": [
+    "Inspect an existing lesson repository and deployed page before editing.",
+    "Record protected and changeable areas before making changes.",
     "Use only resources needed for the learning goal.",
     "Verify implementations and catalogs; never guess APIs, classes, sound IDs or asset URLs.",
+    "Use lightweight WebP for web display when it exists; fall back to the original only when necessary.",
     "Use navigation characters only as visual guidance; verify character IDs and image paths in navi-character- catalog.json.",
     "Use EDU_EVENTS as the integration boundary.",
     "Keep lesson-specific questions, text and achievement conditions in the lesson repository.",
-    "Do not place DOM, CSS, sounds or images inside shared managers."
+    "Keep DOM, CSS, sounds and images outside shared managers.",
+    "Ensure a child can recover from being stuck without falsely recording a revealed answer as correct.",
+    "For simulators, make condition changes produce immediate visible changes and provide reset/retry.",
+    "Keep tablet-landscape primary learning content within one screen where practical.",
+    "Do not place large decorative assets before the question, observation or primary operation.",
+    "Do not let image, sound or animation failures stop the learning flow."
   ]
 }
