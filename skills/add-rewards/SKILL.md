@@ -11,31 +11,35 @@ description: Web教材にバッジ、コレクション、レベル等を、学�
 
 ## 最初に確認するもの
 
-1. 何を称えるか: 初回挑戦、継続、正答、再挑戦、単元完了など
+1. 何を称えるか：初回挑戦、継続、正答、再挑戦、単元完了など
 2. 学習入口と報酬導線の優先順位
 3. 既存保存形式と教材固有namespace
-4. `edu-assets`の実在画像とレアリティ
+4. edu-assetsの実在画像、軽量WebP、レアリティ
+5. 未獲得・獲得済みを区別する表示方法
 
 ## 使用候補
 
-- `edu-components`: `ProgressManager`、`AchievementManager`、`BadgeManager`、`StorageManager`
-- `edu-assets`: 実在するバッジ・コレクション画像
-- `edu-effects`: 獲得演出
-- `sounds-recipe-`: 特別な節目だけ
+- edu-components：ProgressManager、AchievementManager、BadgeManager、StorageManager
+- edu-assets：実在するバッジ・コレクション画像
+- edu-effects：獲得演出
+- sounds-recipe-：特別な節目だけ
 
 ## 手順
 
 1. 学習と直接結びつく獲得条件を定義する。
-2. 必要なManagerだけを選び、APIを正本で確認する。
-3. Badge Labまたは実ファイルで画像URLを確認する。
-4. 教材固有namespaceで保存し、既存データを壊さない。
-5. 獲得演出後にすぐ次の学習へ戻れるようにする。
-6. 未獲得要素を大量表示して圧倒しない。
+2. 条件ごとの報酬を個別に管理し、最初から獲得済みにしない。
+3. 必要なManagerだけを選び、APIを正本で確認する。
+4. Badge Labまたは実ファイルで軽量WebPの画像URLを確認する。
+5. 教材固有namespaceで保存し、既存データを壊さない。
+6. 獲得演出後にすぐ次の学習へ戻れるようにする。
+7. 未獲得要素を大量表示して圧倒しない。
+8. 報酬機能が失敗しても学習本体を止めない。
 
 ## 完了条件
 
 - 報酬が学習入口より目立たない。
 - 条件が学習行動と結びついている。
+- 未獲得・獲得済み・次の条件が区別できる。
 - 小さな成長と再挑戦も称えられる。
 - 画像URL・Manager API・イベントが実在する。
 - リロード後も獲得状態が保持される。
