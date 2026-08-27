@@ -2,156 +2,129 @@
 
 ## この文書の役割
 
-小学校向けWeb教材を作るAIは、最初にこの文書を読みます。ここは5つの共通資産を一つに複製した場所ではなく、必要な資産を正しく選び、実在する実装へ案内する正本です。
+小学校向けWeb教材を作成・改修するAIは、最初にこの文書を読みます。
+
+edu-kitは、5つの共通資産を一つに複製した場所ではありません。学習目標に必要な資産を選び、各リポジトリの正本へ案内する設計ハブです。ここにない詳細を推測せず、参照先の実装と公開カタログで確認してください。
 
 ## 絶対ルール
 
-1. READMEの説明だけでAPI、CSSクラス、音ID、画像URLを推測しない。
-2. 参照先の実装ファイルと公開カタログで、利用する名前とパスの実在を確認する。
-3. 5資産すべてを必ず使わない。学習目標に必要な資産だけを選ぶ。
-4. 既存部品と同じ処理を教材側で再実装しない。
-5. 教材固有の問題データ、画面文言、正答、達成条件は教材リポジトリ側に置く。
-6. Managerの内部へDOM、CSS、音、画像を混在させない。
-7. 保存は教材固有のnamespaceを指定した`StorageManager`を使い、`localStorage`を各所から直接操作しない。
-8. HTML / CSS / Vanilla JavaScriptだけで動かし、npm、ビルド、APIキー、外部DBを前提にしない。
-9. タッチとマウスに対応する。並べ替えも長押し・ドラッグだけを必須にしない。
+1. **作業前に現状を確認する。** 既存教材では、ソースのファイル構成、問題データ、正答、判定、進行、保存、画像リンク、公開画面を先に確認する。
+2. **保護対象と変更対象を分ける。** ユーザーが触らないと指定した領域、既存の学習内容、問題数、保存形式を勝手に変更しない。
+3. READMEの説明だけでAPI、CSSクラス、音ID、画像URLを推測しない。
+4. 参照先の実装ファイルと公開カタログで、利用する名前・引数・イベントdetail・パスの実在を確認する。
+5. 5資産すべてを必ず使わない。学習目標に必要な資産だけを選ぶ。
+6. 既存部品と同じ処理を教材側で再実装しない。教材固有の問題データ、画面文言、正答、達成条件は教材リポジトリ側に置く。
+7. Managerの内部へDOM、教材CSS、音、画像を混在させない。状態とイベントを受けた教材側が表示を接続する。
+8. 新規教材はHTML / CSS / Vanilla JavaScript、GitHub Pages、localStorageを基本とし、npm、ビルド、APIキー、外部DBを前提にしない。
+9. タッチとマウスに対応し、必要な場面ではキーボードにも対応する。長押し・ドラッグだけを必須操作にしない。
+10. **入口から学習内容を選べるようにする。** 複数のモードや単元がある場合は、開始前に何をするかを明確に選べるようにし、選択中の状態を見た目で分かるようにする。
+11. **タブレット横向きの1画面を基準にする。** 問題、観察対象、主要操作、現在地を優先し、巨大なタイル・絵・ヘッダーで学習領域を圧迫しない。スクロールは必要な補足領域だけにする。
+12. **つまずいても進めるようにする。** 問題の性質に応じて、ヒント、解説、答えを見る、やり直す、次へ進むなどの脱出口を用意する。答えを見た場合は正答・マスター達成として偽って記録しない。
+13. **シミュレーターは現象を主役にする。** 「条件を変える → その場で現象が変わる → 短く結果を確かめる → もう一度試す」の循環を優先し、長い記録入力や説明文を操作より前に置かない。
+14. 保存は教材固有namespaceで管理する。新規教材は原則としてStorageManagerを使い、既存教材では保存キー・スキーマ・過去データを調査してから変更する。リロード後も進捗・獲得状態・設定が保持されるか確認する。
+15. 報酬は学習行動と結びつける。未獲得のバッジを最初から色付きで表示せず、獲得条件と状態を分けて扱う。獲得演出で学習を長時間止めない。
+16. Web表示では軽量WebPを優先する。原本PNG/JPGは高解像度、印刷、制作・再編集、または軽量版がない場合だけ使う。軽量版の実在を確認せずに拡張子だけを置き換えない。
+17. 絵文字、キャラクター、演出だけで学習内容を表さない。問題文・式・選択肢・観察結果を読みやすく表示し、装飾が文字や式より大きくなりすぎないようにする。
+18. アニメーションは意味・位置・速度を確認する。白いちらつき、不要な画面全体の点滅、レイアウトシフト、対象物と説明のずれを起こさない。reduced motionでは簡略化する。
+19. 画像・音・演出の読み込み失敗で学習本体を止めない。補助要素は失敗時に非表示または代替表示にできるようにする。
+20. 完了と報告の前に、基本フロー、保存、端末表示、コンソールエラー、参照URLを確認する。
+
+## AIが編集前に整理すること
+
+作業を始める前に、次の5点を短く書き出します。
+
+| 項目 | 書く内容 |
+| --- | --- |
+| 学習目標 | 何ができるようになればよいか |
+| 保護対象 | 変更しない問題、正答、判定、保存、画像、画面 |
+| 変更対象 | 今回直す画面・機能・ファイル |
+| 共通資産 | 使用するもの、使用しないもの、実在確認先 |
+| 完了確認 | 開始、回答、つまずき、結果、リロード、端末幅 |
+
+これを先に整理できない場合は、コードを変更せず、現状確認を続けます。
 
 ## 参照順序
 
-1. 学年、教科、学習目標、問題形式、1回の問題数、保存の要否を整理する。
-2. この文書の「目的別レシピ」で候補を絞る。
-3. `edu-components`の`index.js`と実装で必要なロジックを確認する。
-4. `edu-effects`のAIガイドとカタログで、読み込むCSSファイルとクラスを確認する。
-5. 音が必要な場合だけ`sounds.js`でIDを確認する。
-6. 報酬画像が必要な場合だけBadge Labで画像を開き、URLをコピーする。
-7. イベントを接続点として教材側で組み合わせる。
-8. タブレット横向き、タッチ、キーボード、`prefers-reduced-motion`で確認する。
+1. ユーザーの依頼から学年・教科・単元・学習目標・変更範囲・保護対象を抜き出す。
+2. 既存教材なら、リポジトリのファイル、問題データ、判定、保存、画像参照、公開サイトを確認する。
+3. DESIGN-PRINCIPLES.mdで学習体験とUIの優先順位を確認する。
+4. 該当するskills/*/SKILL.mdを選ぶ。
+5. この文書の目的別レシピで候補を絞る。
+6. edu-componentsの実装とAIガイドでロジックを確認する。
+7. edu-effectsのCSS本体とカタログで読み込むファイル・クラスを確認する。
+8. 音が必要な場合だけsounds.jsでIDを確認する。
+9. 報酬画像が必要な場合だけBadge Labまたは実ファイルで画像を開き、実在URLを確認する。
+10. ナビキャラが必要な場合だけcatalog.jsonとAIガイドで画像名・軽量版・役割を確認する。
+11. 学習骨格を先に実装し、補助資産を後から接続する。
+12. final-reviewに沿って回帰確認する。
 
 ## 5資産の役割と正本
 
 | 資産 | 担当 | 実装・ガイド | 公開カタログ |
 | --- | --- | --- | --- |
-| `edu-components` | 動作・ロジック・状態管理 | [index.js](https://github.com/TT-sensei/edu-components/blob/main/index.js) / [AI-GUIDE](https://github.com/TT-sensei/edu-components/blob/main/AI-GUIDE.md) | [Catalog](https://tt-sensei.github.io/edu-components/) |
-| `edu-effects` | UI・CSS・視覚演出 | [css/](https://github.com/TT-sensei/edu-effects/tree/main/css) / [AI-GUIDE](https://github.com/TT-sensei/edu-effects/blob/main/AI-GUIDE.md) | [Catalog](https://tt-sensei.github.io/edu-effects/) |
-| `sounds-recipe-` | Web Audio APIの効果音 | [sounds.js](https://github.com/TT-sensei/sounds-recipe-/blob/main/sounds.js) / [SOUND_GUIDE](https://github.com/TT-sensei/sounds-recipe-/blob/main/SOUND_GUIDE.md) | [Catalog](https://tt-sensei.github.io/sounds-recipe-/) |
-| `edu-assets` | バッジ・エレメント・コレクション画像 | [assets/](https://github.com/TT-sensei/edu-assets/tree/main/assets) | [Badge Lab](https://tt-sensei.github.io/edu-assets/) |
-| `navi-character-` | 教材を案内するキャラクター画像 | [catalog.json](https://github.com/TT-sensei/navi-character-/blob/main/catalog.json) / [AI-GUIDE](https://github.com/TT-sensei/navi-character-/blob/main/AI-GUIDE.md) | [Character Library](https://tt-sensei.github.io/navi-character-/) |
+| edu-components | 動作・ロジック・状態管理 | [index.js](https://github.com/TT-sensei/edu-components/blob/main/index.js) / [AI-GUIDE](https://github.com/TT-sensei/edu-components/blob/main/AI-GUIDE.md) | [Catalog](https://tt-sensei.github.io/edu-components/) |
+| edu-effects | UI・CSS・視覚演出 | [css/](https://github.com/TT-sensei/edu-effects/tree/main/css) / [AI-GUIDE](https://github.com/TT-sensei/edu-effects/blob/main/AI-GUIDE.md) | [Catalog](https://tt-sensei.github.io/edu-effects/) |
+| sounds-recipe- | Web Audio APIの効果音 | [sounds.js](https://github.com/TT-sensei/sounds-recipe-/blob/main/sounds.js) / [SOUND_GUIDE](https://github.com/TT-sensei/sounds-recipe-/blob/main/SOUND_GUIDE.md) | [Catalog](https://tt-sensei.github.io/sounds-recipe-/) |
+| edu-assets | バッジ・エレメント・コレクション画像 | [assets/](https://github.com/TT-sensei/edu-assets/tree/main/assets) | [Badge Lab](https://tt-sensei.github.io/edu-assets/) |
+| navi-character- | 教材を案内するキャラクター画像 | [catalog.json](https://github.com/TT-sensei/navi-character-/blob/main/catalog.json) / [AI-GUIDE](https://github.com/TT-sensei/navi-character-/blob/main/AI-GUIDE.md) | [Character Library](https://tt-sensei.github.io/navi-character-/) |
 
-機械可読の入口は[`edu-kit.json`](edu-kit.json)です。
+機械可読の入口はedu-kit.jsonです。
 
-## edu-componentsの選び方
+## 既存教材の改修
 
-| 目的 | 部品 |
-| --- | --- |
-| 画面切り替え | `ScreenManager` |
-| ランダム・順番出題、絞り込み | `QuestionPool` |
-| 文字列・数値・複数候補の判定 | `AnswerChecker` |
-| 2〜4択 | `ChoiceQuestion` |
-| ○× | `TrueFalseQuestion` |
-| 文字入力 | `InputQuestion` |
-| 数字入力・教材内テンキー | `NumberInput` |
-| タップ式並べ替え | `SortQuestion` |
-| 複数選択 | `MultiSelect` |
-| 得点・正答率 | `ScoreManager` |
-| 連続正解 | `ComboManager` |
-| 間違い直し | `RetryWrong` |
-| カウントダウン・計時 | `CountdownTimer` / `CountUpTimer` |
-| 時間制チャレンジ | `TimeAttack` / `Challenge60` |
-| 結果ランク・新記録 | `RankCalculator` / `NewRecordJudge` |
-| namespace単位の保存 | `StorageManager` |
-| 完了状況・進捗率 | `ProgressManager` |
-| 数値レベル | `LevelManager` |
-| ステージ・単元の解放 | `UnlockManager` |
-| 達成項目 | `AchievementManager` |
-| バッジ定義・獲得状態 | `BadgeManager` |
+既存教材を改修する場合は、次の順に確認します。
 
-基本読み込み：
+1. 現在のソースと公開サイトを見て、実際に使われている入口・単元・問題・保存キーを特定する。
+2. 問題データ、正答、判定、問題数、学習順序、保存スキーマを「保護対象」として記録する。
+3. ユーザーが変更してよい範囲だけを変更対象にする。
+4. 画像URLとCSS・JSの読み込み先を実ファイルで確認する。
+5. UIを直す場合も、問題と進行を先に通してから見た目を整える。
+6. 変更後に、旧データを持つ状態・新規状態・リロード状態を確認する。
+7. 画像や演出がなくても、開始・回答・進行・結果・ホーム復帰ができることを確認する。
 
-```js
-import {
-  EDU_EVENTS,
-  ScreenManager,
-  QuestionPool,
-  ChoiceQuestion,
-  ScoreManager
-} from 'https://tt-sensei.github.io/edu-components/index.js';
-```
+「全面的に作り直す」と依頼された場合でも、問題内容と保存を無条件に捨てる意味にはしません。ゼロベースにする範囲を、画面構成・UI・演出・ロジック・データごとに分けて判断します。
 
-部品のコンストラクタ、メソッド、イベントdetailは必ず[実装](https://github.com/TT-sensei/edu-components/tree/main/js)または[専用AIガイド](https://github.com/TT-sensei/edu-components/blob/main/AI-GUIDE.md)で再確認します。
+## シミュレーターの設計
 
-## edu-effectsの選び方
+理科などのシミュレーターは、説明を読ませるページではなく、条件を触って現象を確かめる場として設計します。
 
-最初に[公開カタログ](https://tt-sensei.github.io/edu-effects/)で見た目を確認し、[CSS一覧](https://github.com/TT-sensei/edu-effects/tree/main/css)から必要なファイルだけを読み込みます。
+- 変えられる条件を少数に絞り、現在値を常に見えるようにする。
+- 条件変更がその場で図・動き・数値・色などの現象へ反映されるようにする。
+- 何が変わったかを短い結果表示で確かめられるようにする。
+- リセット、初期化、別条件への再試行を用意する。
+- 操作パネルが観察対象を隠さない。
+- 「シミュレーション」と「問題を解く」を分ける場合、開始画面と選択状態を明確に分ける。
+- 長文の実験記録や入力を必須にせず、必要なら短い確認問題・ラベル・結果だけを置く。
+- 図形・光線・回路・月・植物などは、説明用の線やラベルが対象とずれないか確認する。
+- 1画面に収まらない場合は、操作・観察・結果の順に優先し、補足説明を後ろへ置く。
 
-- 基本UI・学習UI：`edu-effects.css`、`edu-learning.css`
-- 正誤や結果：`edu-feedback.css`、`edu-effects-library.css`
-- 問題画面の共通構造：`edu-effects-learning-shell.css`
-- 問い・ヒント・振り返り：`edu-effects-learning-panels.css`、`edu-effects-21st-composer.css`
-- 操作と画面遷移：`edu-effects-interaction-kit.css`
-- 学習向けモーション：`edu-effects-learning-motion.css`
-- 触った感触：`edu-effects-kinetic.css`
-- 追加UI：`edu-ui-variants.css`
-- 3D・画像フィルター：`edu-effects-3d.css`、`edu-effects-filters.css`
+## edu-assetsとnavi-character-の画像
 
-ここにあるファイル名だけではクラスの実在確認になりません。使用クラスはCSS本体またはカタログのコピー機能で確認します。
-
-## sounds-recipe-の使い方
-
-音声ファイル集ではありません。`sounds.js`がexportする`soundList`から実在IDを探し、各レシピの`play()`を呼びます。`playSound()`という共通APIはありません。
-
-```js
-import { soundList } from 'https://tt-sensei.github.io/sounds-recipe-/sounds.js';
-
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-async function playRecipe(id, volume = 0.25) {
-  if (audioContext.state === 'suspended') await audioContext.resume();
-  const recipe = soundList.find((item) => item.id === id);
-  if (!recipe) return false;
-  recipe.play(audioContext, volume);
-  return true;
-}
-```
-
-代表的な確認済みID：`correct`、`wrong`、`softFail`、`combo3`、`combo5`、`combo10`、`warning`、`timeUpSoft`、`badge`、`rareBadge`、`levelup`、`unlock`、`mission`、`allclear`。全IDは[sounds.js](https://github.com/TT-sensei/sounds-recipe-/blob/main/sounds.js)または[カタログ](https://tt-sensei.github.io/sounds-recipe-/)で確認します。
-
-AudioContextは最初のユーザー操作後に`resume()`し、音量・ミュート設定を教材側に用意します。
-
-## edu-assetsの使い方
-
-- 共通・教科別：`assets/badges/common/`、`japanese/`、`math/`、`science/`、`social/`
-- エレメント：`assets/elements/<属性>/level-1|level-2|level-3/badge.png`
-- コレクション：`assets/collections/<シリーズ>/common|rare|super-rare|secret/<項目>/badge.png`
-
-フォルダ名からURLを組み立てて推測しません。[Badge Lab](https://tt-sensei.github.io/edu-assets/)で画像を開き、「URLをコピー」で実在URLを取得します。
-
-## navi-character-の使い方
-
-- まず[Character Library](https://tt-sensei.github.io/navi-character-/)または[catalog.json](https://github.com/TT-sensei/navi-character-/blob/main/catalog.json)で、キャラクターID・画像名・実在パスを確認する。
-- `assets/characters/<character-id>/fullbody/<pose>.png` と `expressions/<expression>.png` のURLを推測で組み立てない。必ずカタログの実在項目を使う。
-- 6人に共通する場面の意味は「あいさつ / 正解 / ヒント / 再挑戦 / 完了」。ファイル名には個人差（例：りくは`01-waving`）があるため、各IDの`catalog.json`を確認してから選ぶ。表情は `01-normal-smile` 〜 `10-confident` から目的に合わせて選ぶ。
-- キャラクターは案内・励まし・正誤・達成を補助するために使う。問題文、選択肢、答え、判定をキャラクター画像へ埋め込まない。
-- 複数の場面で使うなら、教材側にキャラクターIDと画像URLをまとめて定義し、画像パスを散在させない。
-- 6人セット画像は `assets/groups/` にある。トップ・紹介は `group-standing`、学習ポータルは `group-studying`、達成は `group-celebration`、仲間感の演出は `group-huddle` を使う。
+- フォルダ名からURLを組み立てて推測しない。
+- Badge Lab、Character Library、catalog.json、実ファイルで実在パスを確認する。
+- Web表示はassets/web/以下の軽量WebPを先に探し、存在しない場合だけ原本を使う。
+- キャラクターは問題文、選択肢、答え、判定の代わりにしない。
+- 未獲得のバッジ・コレクションは、獲得済みと区別できる状態で表示する。
+- 獲得条件が別々の項目を、一つのシリーズ獲得として最初からまとめて表示しない。
 
 ## イベントを連携の中心にする
 
-イベント名の正本は[`js/core/events.js`](https://github.com/TT-sensei/edu-components/blob/main/js/core/events.js)です。Managerはロジックと状態を担当し、イベントを受けた教材側がCSS演出、音、画像表示を接続します。
+イベント名の正本はedu-componentsのevents.jsです。Managerはロジックと状態を担当し、イベントを受けた教材側がCSS演出、音、画像表示を接続します。
 
 | イベント | 主な用途 | 接続例 |
 | --- | --- | --- |
-| `edu:correct` | 正解 | 正解演出 + `correct` |
-| `edu:wrong` | 不正解 | 不正解演出 + `wrong` / `softFail` |
-| `edu:screenchange` | 画面切替 | ページ遷移演出 |
-| `edu:combo` | コンボ更新 | コンボ表示 + `combo3` / `combo5` / `combo10` |
-| `edu:timerwarning` | 残り時間警告 | タイマー警告 + `warning` |
-| `edu:timeup` | 時間切れ | 終了表示 + `timeUpSoft` |
-| `edu:newrecord` | 新記録 | 記録表示 + 記録用サウンド |
-| `edu:progress` | 進捗更新 | 進捗バー更新 |
-| `edu:levelchange` | レベル変更 | レベルアップ演出 + `levelup` |
-| `edu:unlock` | 項目解放 | 解放演出 + `unlock` |
-| `edu:achievement` | 新しい達成 | 達成演出 + `mission` |
-| `edu:badge` | 新しいバッジ獲得 | `event.detail.badge.image` + 獲得演出 + `badge` |
+| edu:correct | 正解 | 正解演出 + correct |
+| edu:wrong | 不正解 | 不正解演出 + wrong / softFail |
+| edu:screenchange | 画面切替 | ページ遷移演出 |
+| edu:combo | コンボ更新 | コンボ表示 + combo3 / combo5 / combo10 |
+| edu:timerwarning | 残り時間警告 | タイマー警告 + warning |
+| edu:timeup | 時間切れ | 終了表示 + timeUpSoft |
+| edu:newrecord | 新記録 | 記録表示 + 記録用サウンド |
+| edu:progress | 進捗更新 | 進捗バー更新 |
+| edu:levelchange | レベル変更 | レベルアップ演出 + levelup |
+| edu:unlock | 項目解放 | 解放演出 + unlock |
+| edu:achievement | 新しい達成 | 達成演出 + mission |
+| edu:badge | 新しいバッジ獲得 | event.detail.badge.image + 獲得演出 + badge |
 
 イベント名とdetailは実装更新の可能性があるため、利用時に正本を確認します。
 
@@ -159,61 +132,72 @@ AudioContextは最初のユーザー操作後に`resume()`し、音量・ミュ�
 
 ### 基本クイズ
 
-- logic：`ScreenManager`、`QuestionPool`、問題形式、`ScoreManager`
+- logic：ScreenManager、QuestionPool、問題形式、ScoreManager
 - style：問題UI、選択肢、正誤フィードバック
-- sound：`correct`、`wrong`または`softFail`
-- asset：報酬が必要な場合だけ
+- answer support：必要に応じてヒント・解説・答えを見る・次へ進む
+- sound：correct、wrongまたはsoftFail
+- asset：報酬が学習を支える場合だけ
 
 ### 60秒チャレンジ
 
-- logic：`QuestionPool`、`Challenge60`、`ScoreManager`、`ComboManager`
+- logic：QuestionPool、Challenge60、ScoreManager、ComboManager
 - style：タイマー、スコア、コンボ、ランクカード
-- sound：`correct`、コンボ音、`warning`、`timeUpSoft`
+- sound：correct、コンボ音、warning、timeUpSoft
 - asset：新記録や達成に報酬を付ける場合だけ
+- check：時間切れ、再挑戦、タイマー停止、二重回答を確認する
+
+### 条件を試すシミュレーター
+
+- logic：教材固有の状態、必要ならStorageManagerとProgressManager
+- style：条件パネル、観察領域、短い結果表示、リセット
+- cycle：条件を変える → 現象が変わる → 短く確かめる → 再試行
+- avoid：長文記録、巨大な説明カード、操作より前に出る演出
 
 ### キャラクターで案内する教材
 
-- character：`navi-character-`のカタログから1人を選ぶ
+- character：navi-character-のカタログから実在画像を選ぶ
 - logic：既存の問題・正誤ロジック
 - style：キャラクターを主役にしすぎず、問題と操作を最優先に配置
-- sound / asset：必要な場合だけ併用
-- example：開始=`waving`、正解=`correct`、ヒント=`hint`、再挑戦=`retry`、完了=`complete`
+- example：開始=waving、正解=correct、ヒント=hint、再挑戦=retry、完了=complete
+- check：集合画像1枚、通常フィードバック約52px、画像失敗時の継続
 
 ### バッジ付き教材
 
-- logic：`StorageManager`、`AchievementManager`、`BadgeManager`
-- style：バッジ獲得・達成演出
-- sound：`badge`、必要なら`rareBadge`、`mission`
-- asset：Badge Labで選んだ実在URL
-
-### 探究・振り返り
-
-- logic：`ScreenManager`、`StorageManager`、`ProgressManager`
-- style：learning shell / panels / composerから必要なもの
-- sound：節目に必要な場合だけ
-- asset：発見図鑑や達成報酬を付ける場合だけ
+- logic：StorageManager、AchievementManager、BadgeManager
+- style：獲得済み・未獲得・次の条件が区別できる表示
+- sound：badge、必要ならrareBadge、mission
+- asset：Badge Labで確認した軽量WebPの実在URL
+- check：獲得条件、保存、リロード、未獲得からの表示
 
 ## 完成前チェック
 
-- 学習目標と問題形式が一致している。
-- 使用するimport名、メソッド、イベント名が実装に存在する。
+- 学習目標と問題形式またはシミュレーションの操作が一致している。
+- 既存教材の保護対象を意図せず変更していない。
+- 開始画面で、何をするか・どこを押すか・選択中の状態が分かる。
+- タブレット横向きで問題・観察・主要操作が1画面に収まる。
+- 使用するimport名、メソッド、イベント名とdetailが実装に存在する。
 - 読み込むCSSファイルと利用クラスが実在する。
-- 音IDが`soundList`に存在する。
-- バッジ画像URLをBadge Labまたは実ファイルで確認した。
-- キャラクター画像を使う場合、`catalog.json`でcharacter ID・画像名・実在パスを確認した。
-- 共通資産を教材側へ重複実装していない。
-- 問題データと処理が分離されている。
-- 保存namespaceが教材固有である。
-- タブレット横向きで主要操作が一画面に収まり、必要な場所だけがスクロールする。
+- 音IDがsoundListに存在する。
+- バッジ・キャラクター画像がカタログまたは実ファイルに存在する。
+- Web版画像がある場合、原本ではなく軽量WebPを使っている。
+- 問題文・式・選択肢が絵文字や装飾より読みやすい。
+- シミュレーターは条件変更に対して現象が即時に変わり、リセットして再試行できる。
+- 答えを見る・ヒント・次へなど、必要な脱出口があり、答えを見た記録を正答と混同していない。
+- 保存namespaceが教材固有で、リロード後も進捗・報酬・設定が保持される。
 - 色だけで正誤を伝えていない。
-- `prefers-reduced-motion`でも意味が伝わる。
+- 白いちらつき、レイアウトシフト、対象のずれがない。
+- prefers-reduced-motionでも意味が伝わる。
 - タッチ、マウス、必要に応じてキーボードで操作できる。
+- 画像・音・演出が失敗しても学習本体が止まらない。
+- ホーム→開始→出題/観察→正解→不正解/つまずき→次問/再試行→結果→ホーム→再スタートを通せる。
 
 ## AIへの短い依頼テンプレート
 
-```text
+~~~text
 制作前に https://github.com/TT-sensei/edu-kit を起点として確認してください。
-AI-GUIDE.mdに従い、学習目標に必要な共通資産だけを選んでください。
+DESIGN-PRINCIPLES.md、AI-GUIDE.md、該当する skills/*/SKILL.md を読んでください。
+既存教材では、編集前に問題データ・正答・判定・保存・画像リンクを確認し、保護対象と変更対象を分けてください。
 READMEだけで判断せず、参照先の実装と公開カタログでAPI、イベント、CSSクラス、音ID、画像URLの実在を確認してください。
-既存部品を教材側で再実装せず、教材固有の問題データと画面文言は教材側に置いてください。
-```
+タブレット横向きの1画面を基準に、学習入口・問題/観察・主要操作を優先してください。
+子どもがつまずいても、ヒント・解説・答えを見る・再挑戦などから次の行動へ進めるようにしてください。
+~~~
