@@ -105,3 +105,15 @@ node scripts/verify-repositories.mjs
 - タッチ、マウス、必要に応じてキーボードに対応する
 - 長押しやドラッグだけを必須操作にしない
 - prefers-reduced-motionでも学習の意味が伝わる
+
+## License
+
+このリポジトリのソフトウェアコードは、PolyForm Noncommercial License 1.0.0 の条件で提供します。
+
+学校・家庭での非営利利用、教育機関での利用、研究・実験・個人学習などの非商用目的で利用できます。商用目的での利用は許可していません。
+
+ライセンスの全文は [LICENSE](LICENSE) を確認してください。
+
+このリポジトリから参照する `edu-components`、`edu-effects`、`edu-assets`、`navi-character-` などの共通資産には、それぞれのリポジトリに定める個別のライセンス・利用条件が適用されます。
+
+Copyright © 2026 TT-sensei.
