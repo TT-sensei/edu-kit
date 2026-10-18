@@ -4,24 +4,57 @@
   "purpose": "Single entry point for TT-sensei elementary web learning resources",
   "start_here": "https://github.com/TT-sensei/edu-kit/blob/main/AI-GUIDE.md",
   "constraints": {
-    "stack": ["HTML", "CSS", "Vanilla JavaScript"],
+    "stack": [
+      "HTML",
+      "CSS",
+      "Vanilla JavaScript"
+    ],
     "no_build": true,
     "no_api_key": true,
     "no_external_database": true,
     "storage": "localStorage",
-    "input": ["touch", "mouse", "keyboard where appropriate"],
+    "input": [
+      "touch",
+      "mouse",
+      "keyboard where appropriate"
+    ],
     "avoid_drag_only": true,
     "prioritize_tablet_landscape": true,
     "one_screen_primary": true,
     "supplemental_scroll_only": true
   },
   "learning_standards": {
-    "primary_cycle": ["choose", "learn_or_observe", "answer_or_change_condition", "see_feedback", "retry_or_continue"],
-    "stuck_recovery": ["hint", "explanation", "reveal_answer", "retry", "continue"],
+    "primary_cycle": [
+      "choose",
+      "learn_or_observe",
+      "answer_or_change_condition",
+      "see_feedback",
+      "retry_or_continue"
+    ],
+    "stuck_recovery": [
+      "hint",
+      "explanation",
+      "reveal_answer",
+      "retry",
+      "continue"
+    ],
     "answer_reveal_is_correct": false,
-    "simulation_cycle": ["change_condition", "observe_change", "check_briefly", "try_again"],
-    "reward_state_must_distinguish": ["unearned", "earned"],
-    "visual_priority": ["learning_content", "primary_operation", "current_location", "supporting_assets"]
+    "simulation_cycle": [
+      "change_condition",
+      "observe_change",
+      "check_briefly",
+      "try_again"
+    ],
+    "reward_state_must_distinguish": [
+      "unearned",
+      "earned"
+    ],
+    "visual_priority": [
+      "learning_content",
+      "primary_operation",
+      "current_location",
+      "supporting_assets"
+    ]
   },
   "persistence": {
     "new_app_manager": "StorageManager",
@@ -31,7 +64,13 @@
   },
   "image_policy": {
     "web_priority": "lightweight WebP under assets/web when it exists",
-    "original_use": ["high-resolution download", "printing", "authoring", "re-editing", "fallback when no web version exists"],
+    "original_use": [
+      "high-resolution download",
+      "printing",
+      "authoring",
+      "re-editing",
+      "fallback when no web version exists"
+    ],
     "never_guess_paths": true,
     "verify_actual_file": true
   },
@@ -76,6 +115,15 @@
       "manifest": "https://github.com/TT-sensei/navi-character-/blob/main/catalog.json",
       "asset_root": "https://tt-sensei.github.io/navi-character-/assets/characters/",
       "groups_root": "https://tt-sensei.github.io/navi-character-/assets/groups/"
+    },
+    {
+      "id": "learning-taxonomy",
+      "role": "learning-content reference map for elementary subjects; draft relationships and grade placements must be checked",
+      "repository": "https://github.com/TT-sensei/jp-learning-taxonomy",
+      "catalog": "https://tt-sensei.github.io/jp-learning-taxonomy/site/",
+      "data_topics": "https://github.com/TT-sensei/jp-learning-taxonomy/blob/main/data/topics.json",
+      "data_relationships": "https://github.com/TT-sensei/jp-learning-taxonomy/blob/main/data/dependencies.json",
+      "review_log": "https://github.com/TT-sensei/jp-learning-taxonomy/blob/main/docs/student-facing-language-review-2026-10-18.md"
     }
   ],
   "skills": [
