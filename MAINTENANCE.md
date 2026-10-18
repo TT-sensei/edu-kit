@@ -32,7 +32,7 @@ node scripts/verify-repositories.mjs
 
 検証内容:
 
-1. edu-kit.jsonの形式と5資産ID
+1. edu-kit.jsonの形式、5つの必須資産ID、任意の学習内容参照先ID
 2. 各リポジトリ、公開カタログ、ガイド、入口の応答
 3. edu-effects/css/のCSSがedu-effectsのAIガイドに記載されているか
 4. navi-character-のcatalog.jsonにある全画像が実在するか
