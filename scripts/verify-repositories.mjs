@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 
 const OWNER = 'TT-sensei';
 const REQUIRED_IDS = ['components', 'effects', 'sounds', 'assets', 'navi-characters'];
+const OPTIONAL_RESOURCE_IDS = ['learning-taxonomy'];
 const REQUIRED_SKILL_SECTIONS = ['## いつ使うか', '## 最初に確認するもの', '## 使用候補', '## 手順', '## 完了条件'];
 const SKILLS = [
   'create-learning-app',
@@ -65,7 +66,14 @@ async function verifyManifest() {
   for (const id of REQUIRED_IDS) {
     ids.includes(id) ? pass(`resource id: ${id}`) : fail(`missing resource id: ${id}`);
   }
-  if (ids.length !== REQUIRED_IDS.length) fail(`expected ${REQUIRED_IDS.length} resources, found ${ids.length}`);
+  const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+  if (duplicateIds.length) fail(`duplicate resource ids: ${[...new Set(duplicateIds)].join(', ')}`);
+  const allowedIds = new Set([...REQUIRED_IDS, ...OPTIONAL_RESOURCE_IDS]);
+  const unknownIds = ids.filter((id) => !allowedIds.has(id));
+  if (unknownIds.length) fail(`unknown resource ids: ${unknownIds.join(', ')}`);
+  if (ids.length < REQUIRED_IDS.length || ids.length > REQUIRED_IDS.length + OPTIONAL_RESOURCE_IDS.length) {
+    fail(`expected ${REQUIRED_IDS.length} core resources plus up to ${OPTIONAL_RESOURCE_IDS.length} optional reference, found ${ids.length}`);
+  }
   return manifest;
 }
 
