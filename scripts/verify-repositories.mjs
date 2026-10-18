@@ -85,7 +85,7 @@ async function verifyResource(resource) {
   }
   await request(`https://api.github.com/repos/${fullName}`, `${resource.id}: repository`, { json: true });
   const urls = Object.entries(resource).filter(([key, value]) =>
-    ['catalog', 'entry', 'guide', 'manifest'].includes(key) && typeof value === 'string'
+    ['catalog', 'entry', 'guide', 'manifest', 'data_topics', 'data_relationships', 'review_log'].includes(key) && typeof value === 'string'
   );
   for (const [key, url] of urls) await request(url, `${resource.id}: ${key}`);
 }
