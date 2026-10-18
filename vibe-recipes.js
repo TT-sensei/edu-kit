@@ -1,3 +1,4 @@
+// UIレシピの logic / style / sound / asset は設計候補・役割の説明です。実在するAPIやIDを保証しません。利用前に各資産リポジトリの正本を確認してください。ゲームの仕組み自体を削る指示ではありません。
 window.EDU_VIBE_RECIPES = [
   {id:'four-choice',cat:'問題',title:'4択クイズ',desc:'問題を主役にした、迷わない4択画面。',logic:'QuestionPool / AnswerChecker / ScoreManager',style:'4択カード / 正誤フィードバック',sound:'correct / wrong',asset:'達成時のみ教科バッジ',prompt:'4択問題を1問ずつ表示。問題文と選択肢を最優先し、選択後すぐ正誤を示す。次の問題へは大きなボタンで進む。'},
   {id:'true-false',cat:'問題',title:'○×クイズ',desc:'低負荷でテンポよく反復する○×形式。',logic:'QuestionPool / AnswerChecker / ScoreManager',style:'○×大型ボタン / feedback',sound:'correct / wrong',asset:'不要でもよい',prompt:'○と×の2択を大きく表示。説明より問題を優先し、タッチしやすくする。'},
